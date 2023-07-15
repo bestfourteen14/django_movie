@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class Movie(models.Model):
+    id = models.AutoField(primary_key=True, null=False, blank=False)
     title_kor = models.CharField(max_length=30)
     title_eng = models.TextField(default='')
     poster_url = models.URLField(max_length=1024)

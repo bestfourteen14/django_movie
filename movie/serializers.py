@@ -18,7 +18,8 @@ class MovieSerializer(serializers.ModelSerializer):
     staff = StaffSerializer(many=True, read_only=True)
     class Meta:
         model = Movie
-        fields = ['title_kor', 
+        fields = ['id',
+                    'title_kor', 
                     'title_eng',
                     'poster_url',
                     'rating_aud', 
