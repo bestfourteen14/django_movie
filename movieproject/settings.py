@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'movieproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'django_movie',
+        'NAME': 'django-movie',
         'USER': 'root',
         'PASSWORD': 'rycbar123',
         'HOST': 'svc.sel4.cloudtype.app',
