@@ -2,13 +2,17 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import Count
-from .models import Movie, Staff
-from .serializers import MovieSerializer, StaffSerializer
+from .models import Movie, Staff, Comment
+from .serializers import MovieSerializer, StaffSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 import requests
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from members.models import CustomUser
 
 # Create your views here.
 class InitDBView(APIView):
@@ -77,20 +81,20 @@ class MovieSearchView(generics.ListAPIView):
             queryset = queryset.filter(title_kor__icontains=title_kor)
         return queryset
 
-# class CommentDetail(generics.ListAPIView, generics.CreateAPIView):
-#     queryset = Comment.objects.all()
-#     serializer_class = CommentSerializer
+class CommentDetail(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
 
-#     def get_queryset(self):
-#         post_id = self.kwargs['post']
-#         return Comment.objects.filter(post=post_id)
+    def get_queryset(self):
+        post_id = self.kwargs['post']
+        return Comment.objects.filter(post=post_id)
 
-#     authentication_classes = [BasicAuthentication, SessionAuthentication]
-#     permission_classes = [IsAuthenticatedOrReadOnly]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
-#     def perform_create(self, serializer):
-#         user = self.request.user
-#         serializer.save(user = user)
+    def perform_create(self, serializer):
+        user = self.request.user
+        serializer.save(user = user)
 
 
 

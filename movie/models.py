@@ -1,4 +1,5 @@
 from django.db import models
+from members.models import CustomUser
 
 # Create your models here.
 class Movie(models.Model):
@@ -27,11 +28,11 @@ class Staff(models.Model):
     def __str__(self):
         return self.name
 
-# class Comment(models.Model):
-#     post = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='comments')
-#     user = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='comments')
-#     created_at = models.DateField(auto_now_add=True)
-#     comment = models.TextField()
+class Comment(models.Model):
+    post = models.ForeignKey(Movie, null=True, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateField(auto_now_add=True)
+    comment = models.TextField()
 
-#     def __str__(self):
-#         return self.comment
+    def __str__(self):
+        return self.comment

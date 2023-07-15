@@ -19,7 +19,7 @@ from django.urls import path, include
 from movie.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('movie/', include('movie.urls')),
-    # path('members/', include('members.urls')),
+    path('members/', include('members.urls')),
 ]

@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from .models import Movie, Staff
+from .models import Movie, Staff, Comment
 
 # Create your serializers here.
-# class CommentSerializer(serializers.ModelSerializer):
-#     user = serializers.ReadOnlyField(source = 'user.nickname')
-#     class Meta:
-#         model = Comment
-#         fields = ['post', 'user', 'created_at', 'comment']
-#         read_only_fields = ['user']
+class CommentSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source = 'user.nickname')
+    class Meta:
+        model = Comment
+        fields = ['post', 'user', 'created_at', 'comment']
+        extra_kwargs = {'post': {'write_only': True}}
+        # read_only_fields = ['user']
 
 class StaffSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,6 +17,7 @@ class StaffSerializer(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     staff = StaffSerializer(many=True, read_only=True)
+    comments = CommentSerializer(many=True, read_only=True)
     class Meta:
         model = Movie
         fields = ['id',
@@ -30,4 +32,5 @@ class MovieSerializer(serializers.ModelSerializer):
                     'release_date', 
                     'rate', 
                     'summary', 
-                    'staff']
+                    'staff',
+                    'comments',]
